@@ -1,10 +1,13 @@
 using Terminal.Gui;
+using BackerUpperCli.Views;
+using BackerUpperCli.Styles;
 
-namespace BackerUpperCli.Views;
+namespace BackerUpperCli.Windows;
+
 
 public sealed class GoodbyeWindow : Window
 {
-    public GoodbyeWindow()
+    public GoodbyeWindow(IApplication app)
     {
         Border!.LineStyle = DefaultStyles.GetDefaultBorderLineStyle();
         Border!.Thickness = DefaultStyles.GetDefaultBorderThickness();
@@ -19,7 +22,7 @@ public sealed class GoodbyeWindow : Window
         KeyDown += (_, e) =>
         {
             e.Handled = true;
-            Environment.Exit(0);
+            app.Shutdown();
         };
     }
 }

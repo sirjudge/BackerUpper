@@ -1,5 +1,6 @@
 using Terminal.Gui;
 using BackerUpperCli.Views;
+using BackerUpperCli.Styles;
 
 namespace BackerUpperCli.Windows;
 
@@ -18,7 +19,7 @@ public class MainWindow : Window {
                     app.Run(new ActionWindow(UserAction.Backup, app));
                     break;
                 case KeyCode.Q:
-                    app.Run(new GoodbyeWindow());
+                    app.Run(new GoodbyeWindow(app));
                     break;
                 case KeyCode.R:
                     app.Run(new ActionWindow(UserAction.Restore, app));

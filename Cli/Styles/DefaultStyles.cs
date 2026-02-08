@@ -1,6 +1,6 @@
 using Terminal.Gui;
 
-namespace BackerUpperCli.Views;
+namespace BackerUpperCli.Styles;
 
 public static class DefaultStyles
 {
