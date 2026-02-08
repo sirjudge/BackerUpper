@@ -13,21 +13,27 @@ public class MainWindow : Window {
 
         KeyDown += (_, e) =>
         {
+            Window? windowToLaunch = null;
             switch (e.KeyCode)
             {
                 case KeyCode.B:
-                    app.Run(new ActionWindow(UserAction.Backup, app));
+                    windowToLaunch = new ActionWindow(UserAction.Backup, app);
                     break;
                 case KeyCode.Q:
-                    app.Run(new GoodbyeWindow(app));
+                    windowToLaunch = new GoodbyeWindow(app);
                     break;
                 case KeyCode.R:
-                    app.Run(new ActionWindow(UserAction.Restore, app));
+                    windowToLaunch = new ActionWindow(UserAction.Restore, app);
                     break;
                 case KeyCode.C:
-                    app.Run(new ActionWindow(UserAction.Configuration, app));
+                    windowToLaunch = new ActionWindow(UserAction.Configuration, app);
                     break;
             }
+
+            if (windowToLaunch is not null){
+                app.Run(windowToLaunch);
+            }
+
             e.Handled = true;
         };
     }
