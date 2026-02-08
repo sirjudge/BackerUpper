@@ -1,6 +1,5 @@
 using Terminal.Gui;
 using BackerUpperCli.Views;
-using BackerUpperCli.Styles;
 
 namespace BackerUpperCli.Windows;
 
@@ -39,7 +38,8 @@ public class ActionWindow : Window {
                     app.Run(new GoodbyeWindow(app));
                     break;
                 case KeyCode.Esc:
-                    this.RequestStop();
+                    ClearViewport();
+                    app.Run(new MainWindow(app));
                     break;
             }
             e.Handled = true;
