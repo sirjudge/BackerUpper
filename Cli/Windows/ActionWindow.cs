@@ -12,30 +12,34 @@ public enum UserAction {
 public class ActionWindow : Window {
 
     private bool IsRunning { get; set; }
+    private View CurrentView { get; set; }
 
     public ActionWindow(UserAction userAction, IApplication app){
+        Title = "Action Window";
         switch (userAction) {
             case UserAction.Backup:
                 var backupView = new BackupView();
-                backupView.X = 1;
-                backupView.Y = 1;
-                Add();
+                CurrentView = backupView;
+                Add(backupView);
                 break;
             case UserAction.Configuration:
-                var fileConfig = new FileConfig();
-                fileConfig.X = 1;
-                fileConfig.Y = 1;
-                Add(fileConfig);
+                var fileView = new FileConfigView();
+                CurrentView = fileView;
+                Add(fileView);
                 break;
             case UserAction.Restore:
                 var restoreView = new RestoreView();
-                restoreView.X = 1;
-                restoreView.Y = 1;
+                CurrentView = restoreView;
                 Add(restoreView);
                 break;
         }
 
-        Add(new LogView(app));
+        var logView = new LogView(app);
+        logView.X = Pos.Right(
+            CurrentView??
+            throw new InvalidDataException("Current View has not been initialized when Log view is added")
+        );
+        Add(logView);
 
         KeyDown += (_, e) =>
         {
