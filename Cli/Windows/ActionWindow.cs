@@ -16,28 +16,37 @@ public class ActionWindow : Window {
     public ActionWindow(UserAction userAction, IApplication app){
         switch (userAction) {
             case UserAction.Backup:
-                IsRunning = true;
-                Add(new BackupView());
+                var backupView = new BackupView();
+                backupView.X = 1;
+                backupView.Y = 1;
+                Add();
                 break;
             case UserAction.Configuration:
-                Add(new FileConfig());
+                var fileConfig = new FileConfig();
+                fileConfig.X = 1;
+                fileConfig.Y = 1;
+                Add(fileConfig);
                 break;
             case UserAction.Restore:
-                Add(new RestoreView());
-                IsRunning = true;
+                var restoreView = new RestoreView();
+                restoreView.X = 1;
+                restoreView.Y = 1;
+                Add(restoreView);
                 break;
         }
+
+        Add(new LogView(app));
 
         KeyDown += (_, e) =>
         {
             switch (e.KeyCode)
             {
-                //TODO: Should add some kind of extra key or something, too easy
-                //to hit Q mid run
                 case KeyCode.Q:
+                    ClearViewport();
                     app.Run(new GoodbyeWindow(app));
                     break;
                 case KeyCode.Esc:
+                case KeyCode.M:
                     ClearViewport();
                     app.Run(new MainWindow(app));
                     break;
