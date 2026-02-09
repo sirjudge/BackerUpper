@@ -1,6 +1,6 @@
 using Terminal.Gui;
 
-namespace BackerUpperCli.Views;
+namespace Cli.Views;
 
 public class MainMenuView : View {
     public MainMenuView(){

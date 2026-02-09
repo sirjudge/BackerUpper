@@ -1,8 +1,8 @@
 using Terminal.Gui;
-using BackerUpperCli.Views;
-using BackerUpperCli.Styles;
+using Cli.Styles;
+using Cli.Views;
 
-namespace BackerUpperCli.Windows;
+namespace Cli.Windows;
 
 public class MainWindow : Window {
     public MainWindow(IApplication app) {

@@ -1,7 +1,7 @@
 using Terminal.Gui;
-using BackerUpperCli.Views;
+using Cli.Views;
 
-namespace BackerUpperCli.Windows;
+namespace Cli.Windows;
 
 public enum UserAction {
     Configuration,
