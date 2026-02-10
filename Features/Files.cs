@@ -1,6 +1,21 @@
 using Microsoft.Data.Sqlite;
+using System.Data;
 
 namespace Features;
+
+public enum SetupType {
+    Personal = 1,
+    Work = 2,
+    Shared = 4
+}
+
+public class BackupFile(){
+    public required string FileName { get; init; }
+    public required SetupType SetupType { get; init; }
+    public DateTime DateFirstAdded { get; init; }
+    public DateTime DateLastSynced { get; init; }
+}
+
 
 public static class Files {
     private const string SqliteFileName = "configfiles.sqlite";
@@ -8,12 +23,31 @@ public static class Files {
     private static string GetSqliteConnectionString() =>
         $"data source={SqliteFileName}";
 
+    public static DataTable CreateFileListDataTable(List<BackupFile> fileList){
+        DataTable dt = new DataTable();
+        dt.Columns.Add("FileName");
+        return dt;
+    }
+
     public static SqliteConnection GetSqliteConnection(){
         SqliteConnection connection = new (GetSqliteConnectionString());
         connection.Open();
         if (File.Exists(SqliteFileName))
         {
-            return connection;
+            Console.WriteLine($"Found DB file:", Path.GetFullPath(SqliteFileName));
+            using SqliteCommand tableExistsQuery = connection.CreateCommand();
+            tableExistsQuery.CommandText  =
+                """
+                SELECT EXISTS(
+                    SELECT 1
+                    FROM sqlite_master
+                    WHERE type="table" AND name="files"
+                );
+                """;
+            using var reader = tableExistsQuery.ExecuteReader();
+            if (reader.Read() && reader.GetBoolean(0)){
+                return connection;
+            }
         }
 
         using SqliteCommand command = connection.CreateCommand();
@@ -24,7 +58,7 @@ public static class Files {
                 name text not null
             );
             insert or ignore into setup (bit_mask, name)
-            values (1, 'work'), (2, 'personal');
+            values (1, 'work'), (2, 'personal'), (4, 'shared');
 
             create table if not exists files (
                 file_name text not null,
@@ -40,7 +74,16 @@ public static class Files {
         return connection;
     }
 
-    public static List<string> GetBackupFileList(){
+    public static SetupType IntToSetupType(int setupMask) =>
+        setupMask switch
+        {
+            1 => SetupType.Personal,
+            2 => SetupType.Work,
+            3 => SetupType.Shared,
+            _ => throw new InvalidDataException($"Extracted Setup type not supported:{setupMask}")
+        };
+
+    public static List<BackupFile> GetBackupFileList(){
         using var command = GetSqliteConnection().CreateCommand();
         command.CommandText =
             """
@@ -48,44 +91,60 @@ public static class Files {
                 file_name,
                 date_first_added,
                 date_last_synced,
+                setup_bit_mask
             from files
             """;
 
-        List<string> filePathList = [];
+        List<BackupFile> filePathList = [];
         using SqliteDataReader reader = command.ExecuteReader();
         while (reader.Read())
         {
-            string name = reader.GetString(0);
-            filePathList.Add(name);
+            int setupMask = reader.GetInt16(reader.GetOrdinal("setup_bit_mask"));
+            SetupType setupType = IntToSetupType(setupMask);
+            string fileName = reader.GetString(reader.GetOrdinal("file_name"));
+            DateTime dateFirstAdded = reader.GetDateTime(reader.GetOrdinal("date_first_added"));
+            DateTime dateLastSynced = reader.GetDateTime(reader.GetOrdinal("date_last_synced"));
+            BackupFile file = new (){
+                FileName = fileName,
+                SetupType = setupType,
+                DateFirstAdded = dateFirstAdded,
+                DateLastSynced = dateLastSynced,
+            };
+            filePathList.Add(file);
         }
         return filePathList;
     }
 
-    public static void SaveFileBackupList(){
-        using SqliteCommand command = GetSqliteConnection().CreateCommand();
-        command.CommandText =
-            """
-            insert or ignore into files (
-                file_name,
-                date_first_added,
-                date_last_synced,
-                setup_bit_mask
-            ) VALUES (@file_name, @date_first_added, @date_last_synced, @setup_bit_mask);
-            """;
-        command.Parameters.AddWithValue("@file_name", "setup");
-        command.Parameters.AddWithValue("@date_first_added", DateTime.Now);
-        command.Parameters.AddWithValue("@date_last_synced", DateTime.Now);
-        command.Parameters.AddWithValue("@setup_bit_mask", 1);
+    public static void SaveFileBackupList(List<BackupFile> fileList){
 
-        int numberOfRowsReturned = command.ExecuteNonQuery();
-        switch (numberOfRowsReturned)
+        SqliteConnection sqliteConnection = GetSqliteConnection();
+        foreach (BackupFile file in fileList)
         {
-            case -1:
-                throw new DataMisalignedException("Expected an insert command but a -1 was returned which indicates a select statement was run instead");
-            case 0:
-                throw new DataMisalignedException("Expected 1 row inserted but got no rows instead");
-            case > 1:
-                throw new DataMisalignedException("Expected 1 row returned but got " + numberOfRowsReturned);
+            using SqliteCommand command = sqliteConnection.CreateCommand();
+            command.CommandText =
+                """
+                insert or ignore into files (
+                    file_name,
+                    date_first_added,
+                    date_last_synced,
+                    setup_bit_mask
+                ) VALUES (@file_name, @date_first_added, @date_last_synced, @setup_bit_mask);
+                """;
+            command.Parameters.AddWithValue("@file_name", file.FileName);
+            command.Parameters.AddWithValue("@date_first_added", DateTime.Now);
+            command.Parameters.AddWithValue("@date_last_synced", DateTime.Now);
+            command.Parameters.AddWithValue("@setup_bit_mask", file.SetupType);
+
+            int numberOfRowsReturned = command.ExecuteNonQuery();
+            switch (numberOfRowsReturned)
+            {
+                case -1:
+                    throw new DataMisalignedException("Expected an insert command but a -1 was returned which indicates a select statement was run instead");
+                case 0:
+                    throw new DataMisalignedException("Expected 1 row inserted but got no rows instead");
+                case > 1:
+                    throw new DataMisalignedException("Expected 1 row returned but got " + numberOfRowsReturned);
+            }
         }
     }
 }

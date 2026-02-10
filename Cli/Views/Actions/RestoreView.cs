@@ -1,7 +1,7 @@
 using Terminal.Gui;
 using Cli.Styles;
 
-namespace Cli.Views;
+namespace Cli.Views.Actions;
 
 public class RestoreView : View {
     public RestoreView() {

@@ -26,7 +26,7 @@ public class MainWindow : Window {
                     windowToLaunch = new ActionWindow(UserAction.Restore, app);
                     break;
                 case KeyCode.C:
-                    windowToLaunch = new ActionWindow(UserAction.Configuration, app);
+                    windowToLaunch = new FilesWindow(app, false);
                     break;
             }
 

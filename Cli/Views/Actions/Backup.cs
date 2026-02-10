@@ -1,13 +1,13 @@
 using Terminal.Gui;
 using Cli.Styles;
 
-namespace Cli.Views;
+namespace Cli.Views.Actions;
 
-public class FileConfigView : View {
-    public FileConfigView(){
+public class BackupView : View {
+    public BackupView() {
+        Title = "Backup";
         Width = Dim.Percent(75);
         Height = Dim.Fill();
-        Title = "File Configuration";
         BorderStyle = DefaultStyles.GetDefaultBorderLineStyle();
     }
 }

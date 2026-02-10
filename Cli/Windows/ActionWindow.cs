@@ -1,10 +1,11 @@
 using Terminal.Gui;
+using Cli.Views.Actions;
+using Cli.Views.Files;
 using Cli.Views;
 
 namespace Cli.Windows;
 
 public enum UserAction {
-    Configuration,
     Backup,
     Restore
 }
@@ -21,11 +22,6 @@ public class ActionWindow : Window {
                 var backupView = new BackupView();
                 CurrentView = backupView;
                 Add(backupView);
-                break;
-            case UserAction.Configuration:
-                var fileView = new FileConfigView();
-                CurrentView = fileView;
-                Add(fileView);
                 break;
             case UserAction.Restore:
                 var restoreView = new RestoreView();
