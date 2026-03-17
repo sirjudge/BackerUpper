@@ -1,11 +1,39 @@
 namespace Features.Files;
 
-public static class FileAgent
+public class FileAgent
 {
+    public void Run(CopyOptions copyOptions){
+        // TODO:
+        // 1) Load set of files to back up
+        var fileStore = new FileStore();
+        fileStore.GetFileInfoToBackup();
+        // 2) load if we be backin up or restoring
+        // 3) do the thing
+        switch (copyOptions.Action){
+            case Action.Backup:
+                Console.WriteLine("Backng up");
+                break;
+            case Action.Restore:
+                Console.WriteLine("Restoring");
+                break;
+        }
+    }
+
+    internal void BackUp(CopyOptions copyOptions){
+        throw new NotImplementedException();
+    }
+
+    internal void Restore(CopyOptions copyOptions){
+        throw new NotImplementedException();
+    }
+
+
+
+
     /// <summary>
     /// Copies the given File directory
     /// </summary>
-    public static void CopyFile(CopyOptions option){
+    internal void CopyFile(CopyOptions option){
         if (!File.Exists(option.InputPath)){
             LogEvent("No work to be done, file does not exist");
         }
@@ -16,7 +44,6 @@ public static class FileAgent
                 LogEvent($"File: {option.OutputPath} already exists and overwrite flag is set to false");
                 return;
             }
-
             File.Delete(option.OutputPath);
         }
 
@@ -26,7 +53,7 @@ public static class FileAgent
     /// <summary>
     /// Copies the given directory
     /// </summary>
-    public static void CopyDirectory(CopyOptions option){
+    internal static void CopyDirectory(CopyOptions option){
         if(Directory.Exists(option.InputPath)){
             LogEvent("No work to be done, directory does not exist");
             return;
@@ -53,7 +80,7 @@ public static class FileAgent
     /// <summary>
     /// Logs the directory or file copied along with some additional metadata
     /// </summary>
-    public static void LogEvent(string eventMessage){
+    internal static void LogEvent(string eventMessage){
         Console.WriteLine(eventMessage);
     }
 }

@@ -9,6 +9,3 @@ IApplication app = Application.Create ().Init ();
 
 var launchWindow = new MainWindow(app);
 app.Run (launchWindow);
-
-
-
