@@ -2,33 +2,30 @@ namespace Features.Files;
 
 public class FileAgent
 {
-    public void Run(CopyOptions copyOptions){
-        // TODO:
-        // 1) Load set of files to back up
+    public void Run(CopyOptions copyOptions) {
+        // Load the files to extract
         var fileStore = new FileStore();
         fileStore.GetFileInfoToBackup();
-        // 2) load if we be backin up or restoring
-        // 3) do the thing
+
         switch (copyOptions.Action){
             case Action.Backup:
-                Console.WriteLine("Backng up");
-                break;
+                BackUp(copyOptions);
+                return;
             case Action.Restore:
-                Console.WriteLine("Restoring");
+                Restore(copyOptions);
                 break;
         }
     }
 
     internal void BackUp(CopyOptions copyOptions){
+        Console.WriteLine("Backng up");
         throw new NotImplementedException();
     }
 
     internal void Restore(CopyOptions copyOptions){
+        Console.WriteLine("Restoring");
         throw new NotImplementedException();
     }
-
-
-
 
     /// <summary>
     /// Copies the given File directory
