@@ -25,6 +25,7 @@ public sealed class GoodbyeWindow : Window
             e.Handled = true;
             app.RequestStop();
             app.ClearScreenNextIteration = true;
+            Environment.Exit(1);
         };
     }
 }

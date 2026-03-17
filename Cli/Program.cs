@@ -1,9 +1,11 @@
-﻿using Terminal.Gui;
-using Cli.Windows;
+﻿using Cli.Windows;
 using Terminal.Gui.App;
+using Terminal.Gui.Configuration;
 
-using IApplication app = Application.Create ();
-app.Init ();
+ConfigurationManager.RuntimeConfig = """{ "Theme": "Amber Phosphor" }""";
+ConfigurationManager.Enable (ConfigLocations.All);
+
+IApplication app = Application.Create ().Init ();
 
 var launchWindow = new MainWindow(app);
 app.Run (launchWindow);

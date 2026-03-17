@@ -10,6 +10,7 @@ namespace Cli.Windows;
 public class MainWindow : Window {
 
     public MainWindow(IApplication app) {
+        ApplyTheme();
         Title = "BackerUpper";
         Border!.LineStyle = DefaultStyles.GetDefaultBorderLineStyle();
         Border!.Thickness = DefaultStyles.GetDefaultBorderThickness();
@@ -45,5 +46,8 @@ public class MainWindow : Window {
 
     private void ApplyTheme(){
         string [] options = ThemeManager.GetThemeNames ().Select (option => "_" + option).ToArray ();
+
+        ThemeManager.Theme = "Dark";
+        ConfigurationManager.Apply();
     }
 }
