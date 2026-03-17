@@ -1,5 +1,7 @@
-using Terminal.Gui;
+using Terminal.Gui.Views;
+using Terminal.Gui.App;
 using Cli.Styles;
+using Terminal.Gui.ViewBase;
 
 namespace Cli.Windows;
 
@@ -21,7 +23,8 @@ public sealed class GoodbyeWindow : Window
         KeyDown += (_, e) =>
         {
             e.Handled = true;
-            app.Shutdown();
+            app.RequestStop();
+            app.ClearScreenNextIteration = true;
         };
     }
 }

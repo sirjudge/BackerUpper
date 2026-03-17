@@ -1,9 +1,9 @@
 ﻿using Terminal.Gui;
 using Cli.Windows;
+using Terminal.Gui.App;
 
-
-ApplicationV2 app = new();
-app.Init();
+using IApplication app = Application.Create ();
+app.Init ();
 
 var launchWindow = new MainWindow(app);
 app.Run (launchWindow);

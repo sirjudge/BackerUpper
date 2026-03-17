@@ -1,11 +1,14 @@
-using Terminal.Gui;
 using Cli.Views;
 using Cli.Styles;
-using Cli.Windows;
+using Terminal.Gui.App;
+using Terminal.Gui.Views;
+using Terminal.Gui.Drivers;
+using Terminal.Gui.Configuration;
 
 namespace Cli.Windows;
 
 public class MainWindow : Window {
+
     public MainWindow(IApplication app) {
         Title = "BackerUpper";
         Border!.LineStyle = DefaultStyles.GetDefaultBorderLineStyle();
@@ -37,5 +40,10 @@ public class MainWindow : Window {
 
             e.Handled = true;
         };
+    }
+
+
+    private void ApplyTheme(){
+        string [] options = ThemeManager.GetThemeNames ().Select (option => "_" + option).ToArray ();
     }
 }

@@ -1,5 +1,9 @@
 using Terminal.Gui;
 using Cli.Views;
+using Terminal.Gui.Views;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.App;
+using Terminal.Gui.Drivers;
 
 namespace Cli.Windows
 {
@@ -11,7 +15,6 @@ namespace Cli.Windows
 
     public class ActionWindow : Window {
 
-        private bool IsRunning { get; set; }
         private View CurrentView { get; set; }
 
         public ActionWindow(UserAction userAction, IApplication app){

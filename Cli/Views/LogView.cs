@@ -1,5 +1,7 @@
 using Terminal.Gui;
+using Terminal.Gui.ViewBase;
 using Cli.Styles;
+using Terminal.Gui.App;
 
 namespace Cli.Views;
 

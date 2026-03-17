@@ -4,6 +4,7 @@ public class CopyOptions {
     public bool Overwrite { get; init; } = true;
     public bool Recursive { get; init; } = true;
     public bool CreateParentDirectory { get; init; } = true;
-    public bool InputPath { get; init; }
-    public bool OutputPath {get; init; }
+    public required string InputPath { get; init; }
+    public required string OutputPath {get; init; }
 }
+
