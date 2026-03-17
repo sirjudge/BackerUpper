@@ -1,8 +1,8 @@
 ﻿using Terminal.Gui;
-using BackerUpperCli.Windows;
+using Cli.Windows;
 
 
-IApplication app = new ApplicationV2();
+ApplicationV2 app = new();
 app.Init();
 
 var launchWindow = new MainWindow(app);

@@ -1,7 +1,7 @@
 using Terminal.Gui;
-using BackerUpperCli.Styles;
+using Cli.Styles;
 
-namespace BackerUpperCli.Views;
+namespace Cli.Views;
 
 public class RestoreView : View {
     public RestoreView() {

@@ -1,8 +1,7 @@
 using Terminal.Gui;
-using BackerUpperCli.Views;
-using BackerUpperCli.Styles;
+using Cli.Styles;
 
-namespace BackerUpperCli.Windows;
+namespace Cli.Windows;
 
 
 public sealed class GoodbyeWindow : Window
