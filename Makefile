@@ -3,7 +3,10 @@ run:
 
 build:
 	dotnet clean
-	dotnet build
+	dotnet build -m
 
 test:
 	dotnet test
+
+dbUpdate:
+	dotnet ef database update

@@ -3,10 +3,6 @@ namespace Features.Files;
 public class FileAgent
 {
     public void Run(CopyOptions copyOptions) {
-        // Load the files to extract
-        var fileStore = new FileStore();
-        fileStore.GetFileInfoToBackup();
-
         switch (copyOptions.Action){
             case Action.Backup:
                 BackUp(copyOptions);

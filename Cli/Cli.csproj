@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
     <PackageReference Include="Terminal.Gui" Version="2.0.0-develop.5189" />
   </ItemGroup>
 </Project>

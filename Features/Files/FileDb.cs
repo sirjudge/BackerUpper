@@ -1,22 +1,61 @@
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 
 namespace Features.Files;
 
+//Built off this documentation
+//https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli
 public class FileContext : DbContext {
     public DbSet<BackupFile> Files { get; set; }
     public DbSet<BackUpAudit> BackUpAudits { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public string DbPath { get; }
+
+    public FileContext()
     {
-        optionsBuilder.UseSqlite("Data Source=BackerUpper.db");
-        base.OnConfiguring(optionsBuilder);
+        const Environment.SpecialFolder folder = Environment.SpecialFolder.LocalApplicationData;
+        var path = Environment.GetFolderPath(folder);
+        DbPath = Path.Join(path, "backerUpper.db");
     }
+
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+        => options.UseSqlite($"Data Source={DbPath}");
 }
 
 public class BackupFileDbHandler() {
+    public BackupFile GetBackupFile(int backupFileId){
+        using var dbContext = new FileContext();
+        return dbContext.Files
+            .Where(file => file.BackUpId == backupFileId)
+            .First();
+    }
+
+
     public void AddBackupFile(BackupFile file){
         using var dbContext = new FileContext();
         dbContext.Add(file);
         dbContext.SaveChanges();
     }
+
+    public void UpdateBackupFile(BackupFile file){
+        using var dbContext = new FileContext();
+        var currentFile = GetBackupFile(file.BackUpId);
+        currentFile.FileName = file.FileName;
+        currentFile.FilePath = file.FilePath;
+        currentFile.LastModified = DateTime.Now;
+    }
+
+    public void RemoveBackupFile(int backupFileId){
+        var file = GetBackupFile(backupFileId);
+        RemoveBackupFile(file);
+    }
+
+    public void RemoveBackupFile(BackupFile file){
+        using var dbContext = new FileContext();
+        dbContext.Remove(file);
+        dbContext.SaveChanges();
+    }
+
 }
