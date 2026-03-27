@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace Features.Files;
 
@@ -9,6 +7,7 @@ namespace Features.Files;
 public class FileContext : DbContext {
     public DbSet<BackupFile> Files { get; set; }
     public DbSet<BackUpAudit> BackUpAudits { get; set; }
+    public DbSet<CopyOptions> CopyOptions { get; set; }
 
     public string DbPath { get; }
 
@@ -57,5 +56,4 @@ public class BackupFileDbHandler() {
         dbContext.Remove(file);
         dbContext.SaveChanges();
     }
-
 }

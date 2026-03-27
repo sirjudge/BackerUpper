@@ -1,11 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Features.Files;
 
 public enum Action {
-    Backup,
-    Restore
+    Backup = 1,
+    Restore = 2
 }
 
 public class CopyOptions {
+    [Key]
+    public required int CopyOptionsId { get; init; }
     public bool Overwrite { get; init; } = true;
     public bool Recursive { get; init; } = true;
     public bool CreateParentDirectory { get; init; } = true;
