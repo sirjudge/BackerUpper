@@ -1,11 +1,16 @@
-using Terminal.Gui;
-using BackerUpperCli.Views;
-using BackerUpperCli.Styles;
+using Cli.Views;
+using Cli.Styles;
+using Terminal.Gui.App;
+using Terminal.Gui.Views;
+using Terminal.Gui.Drivers;
+using Terminal.Gui.Configuration;
 
-namespace BackerUpperCli.Windows;
+namespace Cli.Windows;
 
 public class MainWindow : Window {
+
     public MainWindow(IApplication app) {
+        ApplyTheme();
         Title = "BackerUpper";
         Border!.LineStyle = DefaultStyles.GetDefaultBorderLineStyle();
         Border!.Thickness = DefaultStyles.GetDefaultBorderThickness();
@@ -36,5 +41,13 @@ public class MainWindow : Window {
 
             e.Handled = true;
         };
+    }
+
+
+    private void ApplyTheme(){
+        string [] options = ThemeManager.GetThemeNames ().Select (option => "_" + option).ToArray ();
+
+        ThemeManager.Theme = "Dark";
+        ConfigurationManager.Apply();
     }
 }

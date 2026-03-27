@@ -1,8 +1,9 @@
-using Terminal.Gui;
-using BackerUpperCli.Views;
-using BackerUpperCli.Styles;
+using Terminal.Gui.Views;
+using Terminal.Gui.App;
+using Cli.Styles;
+using Terminal.Gui.ViewBase;
 
-namespace BackerUpperCli.Windows;
+namespace Cli.Windows;
 
 
 public sealed class GoodbyeWindow : Window
@@ -22,7 +23,9 @@ public sealed class GoodbyeWindow : Window
         KeyDown += (_, e) =>
         {
             e.Handled = true;
-            app.Shutdown();
+            app.RequestStop();
+            app.ClearScreenNextIteration = true;
+            Environment.Exit(1);
         };
     }
 }

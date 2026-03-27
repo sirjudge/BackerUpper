@@ -1,8 +1,10 @@
-using Terminal.Gui;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 
-namespace BackerUpperCli.Views;
+namespace Cli.Views;
 
-public class MainMenuView : View {
+public class MainMenuView : View
+{
     public MainMenuView(){
         Width = Dim.Fill();
         Height = Dim.Fill();

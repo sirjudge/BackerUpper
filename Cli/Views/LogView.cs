@@ -1,7 +1,9 @@
 using Terminal.Gui;
-using BackerUpperCli.Styles;
+using Terminal.Gui.ViewBase;
+using Cli.Styles;
+using Terminal.Gui.App;
 
-namespace BackerUpperCli.Views;
+namespace Cli.Views;
 
 public class LogView : View {
     public LogView(IApplication app){
