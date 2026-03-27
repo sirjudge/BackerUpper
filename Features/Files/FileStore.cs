@@ -12,4 +12,8 @@ public class FileStore {
     public void AddFileToStore() {
         throw new NotImplementedException();
     }
+
+    public void RemoveFileFromStore(){
+        throw new NotImplementedException();
+    }
 }

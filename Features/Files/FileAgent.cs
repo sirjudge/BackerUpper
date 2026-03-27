@@ -23,7 +23,6 @@ public class FileAgent
     }
 
     internal void Restore(CopyOptions copyOptions){
-        Console.WriteLine("Restoring");
         throw new NotImplementedException();
     }
 
@@ -68,9 +67,9 @@ public class FileAgent
                 throw new UnauthorizedAccessException("File canRead attribute is set to false:{fileName}");
             }
 
-
             var outputCopyPath = Path.Combine(option.OutputPath, filePath);
             File.Copy(filePath, outputCopyPath);
+            //TODO: Need to hook up db stuff here plus backup audit
         }
     }
 
