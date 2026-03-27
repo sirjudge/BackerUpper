@@ -15,6 +15,9 @@ bin/
 
 # sqlite
 *.sqlite*
+*.db*
 
 benchmark*
 *.test
+
+

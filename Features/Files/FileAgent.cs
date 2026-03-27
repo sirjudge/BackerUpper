@@ -1,5 +1,10 @@
 namespace Features.Files;
 
+public enum ItemType {
+    File,
+    Directory
+}
+
 public class FileAgent
 {
     public void Run(CopyOptions copyOptions) {
