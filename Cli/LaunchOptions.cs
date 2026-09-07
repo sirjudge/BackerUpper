@@ -22,18 +22,29 @@ public static class LaunchOptions {
 
     public static Command TuiCommand = new ("tui", "Terminal User Interface"){
         Action = new TuiActionCommand()
-        // new Option<bool> ("--tui", "-t"){
-        //     Description = "Launch application in TUI mode",
-        //     Action = new TuiActionCommand()
-        // },
     };
 
     public static Command BackupActionCommand = new ("backup", "run a backup"){
-        new Option<string?>("--backupType", "-bt"){
-            Description = "passes in a backup type for configuring multiple backup options for different devices or configurations",
-        },
-        new Option<string?>("--dryRun", "-dr"){
-            Description = "operates as if it were backing up but skips any actual IO while still performing validation",
-        },
+        Action = new BackupCommand(),
+        //TODO: need to figure out how to get these to work as additional options for this command
+        // new Option<string?>("--backupType", "-bt"){
+        //     Description = "passes in a backup type for configuring multiple backup options for different devices or configurations",
+        // },
+        // //TODO: this should really be a global command tbh
+        // new Option<string?>("--dryRun", "-dr"){
+        //     Description = "operates as if it were backing up but skips any actual IO while still performing validation",
+        // },
+    };
+
+    public static Command RestoreActionCommand = new ("restore", "Run a restore"){
+        Action = new RestoreCommand(),
+        //TODO: need to figure out how to get these to work as additional options for this command
+        // new Option<string?>("--backupType", "-bt"){
+        //     Description = "passes in a backup type for configuring multiple backup options for different devices or configurations",
+        // },
+        // //TODO: this should really be a global command tbh
+        // new Option<string?>("--dryRun", "-dr"){
+        //     Description = "operates as if it were backing up but skips any actual IO while still performing validation",
+        // },
     };
 }

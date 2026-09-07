@@ -1,5 +1,4 @@
 ﻿using System.CommandLine;
-using Cli.CommandActions;
 using Terminal.Gui.Configuration;
 
 namespace Cli;
