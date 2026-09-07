@@ -1,15 +1,32 @@
-﻿using Cli.Windows;
-using Terminal.Gui.App;
+﻿using System.CommandLine;
 using Terminal.Gui.Configuration;
 
-ConfigurationManager.RuntimeConfig = """{ "Theme": "Amber Phosphor" }""";
-ConfigurationManager.Enable (ConfigLocations.All);
+namespace Cli;
 
-IApplication app = Application.Create ().Init ();
+internal static class Program
+{
+    private static void Main(string[] args)
+    {
+        ConfigurationManager.RuntimeConfig = """{ "Theme": "Amber Phosphor" }""";
+        ConfigurationManager.Enable(ConfigLocations.All);
 
-//TODO: Need to add toggle to launch in TUI or just parse command flags
-//const launchOptions = new LaunchOptions(){
-//
-//}
-var launchWindow = new MainWindow(app);
-app.Run (launchWindow);
+        var rootCommand = BuildRootCommand();
+        var parseResult = rootCommand.Parse(args);
+        foreach (var error in parseResult.Errors){
+            Console.Error.WriteLine($"Error during parsing:{error.Message}");
+        }
+
+        parseResult.Invoke();
+    }
+
+    private static RootCommand BuildRootCommand()
+    {
+        RootCommand rootCommand = new ("CLI and TUI file and directory back up tool");
+        rootCommand.Options.Add(LaunchOptions.ListPaths);
+        rootCommand.Options.Add(LaunchOptions.TuiMode);
+        rootCommand.Options.Add(LaunchOptions.AddPathToBackup);
+        rootCommand.Options.Add(LaunchOptions.RemovePathToBackup);
+        rootCommand.Options.Add(LaunchOptions.BackupType);
+        return rootCommand;
+    }
+}
