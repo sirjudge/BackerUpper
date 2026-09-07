@@ -12,8 +12,6 @@ public class TuiActionCommand : AsynchronousCommandLineAction
         Console.WriteLine("Invoked TUI launching");
         var app = Application.Create().Init();
         var launchWindow = new MainWindow(app);
-        //TODO: need to figure out if app.Run(...) returns early while execution continues 
-        // don't think it does but need to check
         app.Run(launchWindow);
         return Task.FromResult(1);
     }

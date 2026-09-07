@@ -1,4 +1,5 @@
 ﻿using System.CommandLine;
+using Cli.CommandActions;
 using Terminal.Gui.Configuration;
 
 namespace Cli;
@@ -22,11 +23,9 @@ internal static class Program
     private static RootCommand BuildRootCommand()
     {
         RootCommand rootCommand = new ("CLI and TUI file and directory back up tool");
-        rootCommand.Options.Add(LaunchOptions.ListPaths);
-        rootCommand.Options.Add(LaunchOptions.TuiMode);
-        rootCommand.Options.Add(LaunchOptions.AddPathToBackup);
-        rootCommand.Options.Add(LaunchOptions.RemovePathToBackup);
-        rootCommand.Options.Add(LaunchOptions.BackupType);
+        rootCommand.Subcommands.Add(LaunchOptions.BackupActionCommand);
+        rootCommand.Subcommands.Add(LaunchOptions.TuiCommand);
+        rootCommand.Subcommands.Add(LaunchOptions.BackupPathCommand);
         return rootCommand;
     }
 }
