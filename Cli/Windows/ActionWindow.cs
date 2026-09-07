@@ -1,4 +1,3 @@
-using Terminal.Gui;
 using Cli.Views;
 using Terminal.Gui.Views;
 using Terminal.Gui.ViewBase;
