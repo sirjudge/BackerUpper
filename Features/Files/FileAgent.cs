@@ -96,9 +96,9 @@ public class FileAgent
     public static void AddPathToBackup(string path){
         try {
             var fileAttributes = File.GetAttributes(path);
-            if(fileAttributes.HasFlag(FileAttributes.Directory)){
+            if(!fileAttributes.HasFlag(FileAttributes.Directory)){
                 var backupFile = new BackupFile(){
-                    BackUpId = null,
+                    BackUpId = Guid.NewGuid(),
                     FileName = Path.GetFileName(path),
                     FilePath = path,
                     LastModified = File.GetLastAccessTime(path),
@@ -111,7 +111,7 @@ public class FileAgent
             }
             else {
                 var backupFile = new BackupFile(){
-                    BackUpId = null,
+                    BackUpId = Guid.NewGuid(),
                     FileName = Path.GetDirectoryName(path),
                     FilePath = path,
                     LastModified = File.GetLastAccessTime(path),

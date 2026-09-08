@@ -32,13 +32,14 @@ public class BackupFileDbHandler() {
         return dbContext.Files.ToList();
     }
 
-    public BackupFile GetBackupFile(int backupFileId){
+    public BackupFile GetBackupFile(Guid backupFileId){
         using var dbContext = new FileContext();
         return dbContext.Files
-            .Where(file => file.BackUpId == backupFileId)
-            .First();
+            .First(file => file.BackUpId == backupFileId);
     }
 
+    //TODO: if adding we have a fileId what that about
+    //do we just Guid it? I think that good idea because too lazy to do otherwise
     public void AddBackupFile(BackupFile file){
         using var dbContext = new FileContext();
         dbContext.Add(file);
@@ -46,18 +47,14 @@ public class BackupFileDbHandler() {
     }
 
     public void UpdateBackupFile(BackupFile file){
-        if (!file.BackUpId.HasValue){
-            throw new ArgumentException("Backup file Id is null when it should not be when updating backup file");
-        }
-
         using var dbContext = new FileContext();
-        var currentFile = GetBackupFile(file.BackUpId.Value);
+        var currentFile = GetBackupFile(file.BackUpId);
         currentFile.FileName = file.FileName;
         currentFile.FilePath = file.FilePath;
         currentFile.LastModified = DateTime.Now;
     }
 
-    public void RemoveBackupFile(int backupFileId){
+    public void RemoveBackupFile(Guid backupFileId){
         var file = GetBackupFile(backupFileId);
         RemoveBackupFile(file);
     }

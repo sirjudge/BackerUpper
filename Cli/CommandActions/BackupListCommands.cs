@@ -21,6 +21,10 @@ public class AddPathToBackupCommand : AsynchronousCommandLineAction
     public override Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = new CancellationToken())
     {
         Console.WriteLine("Invoked Add backup path to db");
+        //TODO: need better way to get this, for now just assume it'll be ./cli path -a "path" so path is always the 
+        // third token
+        var path = parseResult.Tokens[2].Value;
+        FileAgent.AddPathToBackup(path);
         return Task.FromResult(1);
     }
 }

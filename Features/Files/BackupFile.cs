@@ -7,7 +7,7 @@ namespace Features.Files;
 public class BackupFile
 {
     [Key]
-    public required int? BackUpId { get; init; }
+    public required Guid BackUpId { get; init; }
     public required string FileName { get; set; }
     public required string FilePath { get; set; }
     public required DateTime LastModified { get; set; }
