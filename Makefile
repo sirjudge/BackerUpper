@@ -9,4 +9,4 @@ test:
 	dotnet test
 
 dbUpdate:
-	dotnet ef database update
+	dotnet ef database update --project Features/

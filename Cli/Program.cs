@@ -22,9 +22,9 @@ internal static class Program
     private static RootCommand BuildRootCommand()
     {
         RootCommand rootCommand = new ("CLI and TUI file and directory back up tool");
-        rootCommand.Subcommands.Add(LaunchOptions.BackupActionCommand);
-        rootCommand.Subcommands.Add(LaunchOptions.TuiCommand);
-        rootCommand.Subcommands.Add(LaunchOptions.BackupPathCommand);
+        rootCommand.Subcommands.Add(CommandFlags.BackupActionCommand);
+        rootCommand.Subcommands.Add(CommandFlags.TuiCommand);
+        rootCommand.Subcommands.Add(CommandFlags.BackupPathCommand);
         return rootCommand;
     }
 }

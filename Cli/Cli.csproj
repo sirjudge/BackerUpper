@@ -10,4 +10,7 @@
     <PackageReference Include="System.CommandLine" Version="2.0.11" />
     <PackageReference Include="Terminal.Gui" Version="2.0.0-develop.5189" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Features\Features.csproj" />
+  </ItemGroup>
 </Project>

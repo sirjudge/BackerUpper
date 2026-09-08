@@ -1,5 +1,6 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using Features.Files;
 
 namespace Cli.CommandActions;
 
@@ -8,6 +9,9 @@ public class ListBackupPaths: AsynchronousCommandLineAction
     public override Task<int> InvokeAsync(ParseResult parseResult, CancellationToken cancellationToken = new CancellationToken())
     {
         Console.WriteLine("Invoked list of backups");
+        var fileDb = new BackupFileDbHandler();
+        foreach (var file in fileDb.GetBackupFiles())
+            Console.WriteLine($"{file.FilePath}: {file.FileName}");
         return Task.FromResult(1);
     }
 }

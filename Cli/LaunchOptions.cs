@@ -3,7 +3,7 @@ using Cli.CommandActions;
 
 namespace Cli;
 
-public static class LaunchOptions {
+public static class CommandFlags {
 
     public static Command BackupPathCommand = new ("path", "backup path management"){
         new Option<bool> ("--list", "-l"){

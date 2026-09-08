@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+
 namespace Features.Files;
 
 public enum ItemType {
@@ -79,5 +81,50 @@ public class FileAgent
     /// </summary>
     internal static void LogEvent(string eventMessage){
         Console.WriteLine(eventMessage);
+    }
+
+    //TODO: think about something because not sure if can get checksum of a directory
+    public static string GetFileChecksum(string path){
+        using var md5 = MD5.Create();
+        using var stream = File.OpenRead(path);
+        return BitConverter.ToString(md5.ComputeHash(stream))
+            .Replace("-","")
+            .ToLower();
+    }
+
+    //TDOO: need to add unit tests for the following
+    public static void AddPathToBackup(string path){
+        try {
+            var fileAttributes = File.GetAttributes(path);
+            if(fileAttributes.HasFlag(FileAttributes.Directory)){
+                var backupFile = new BackupFile(){
+                    BackUpId = null,
+                    FileName = Path.GetFileName(path),
+                    FilePath = path,
+                    LastModified = File.GetLastAccessTime(path),
+                    DateAdded = DateTime.UtcNow,
+                    FileHash = GetFileChecksum(path),
+                    IsDirectory = false
+                };
+                var db = new BackupFileDbHandler();
+                db.AddBackupFile(backupFile);
+            }
+            else {
+                var backupFile = new BackupFile(){
+                    BackUpId = null,
+                    FileName = Path.GetDirectoryName(path),
+                    FilePath = path,
+                    LastModified = File.GetLastAccessTime(path),
+                    DateAdded = DateTime.UtcNow,
+                    FileHash = GetFileChecksum(path),
+                    IsDirectory = true
+                };
+                var db = new BackupFileDbHandler();
+                db.AddBackupFile(backupFile);
+            }
+        }
+        catch(Exception e){
+            Console.Error.WriteLine(e);
+        }
     }
 }
